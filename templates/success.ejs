@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+
+
+<!-- TODO 设计 -->
+
+
+<head>
+  <title>Google SignIn</title>
+  <style>
+    body {
+      padding-top: 70px;
+    }
+  </style>
+</head>
+
+<body>
+  Profile Information <br>
+
+  <strong>Id</strong>: <%= user.id %><br>
+  <strong>Email</strong>: <%= user.emails[0].value %><br>
+  <strong>Name</strong>: <%= user.displayName %>
+
+</body>
+
+</html>
