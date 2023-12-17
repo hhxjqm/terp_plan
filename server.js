@@ -17,7 +17,8 @@ const database = process.env.MONGO_DB_NAME;
 const collection = process.env.MONGO_COLLECTION;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const port = process.env.PORT;
-const uri = `mongodb+srv://${user_name}:${password}@cluster0.bbzwrwo.mongodb.net/?retryWrites=true&w=majority`;
+
+const uri = `mongodb+srv://${user_name}:${password}@cluster0.51ntzsa.mongodb.net/?retryWrites=true&w=majority`;
 let site = "http://localHost:" + port;
 console.log(`Web server started and running at ${site}`);
 http.createServer(app).listen(port);
@@ -53,17 +54,17 @@ process.stdin.on("readable", function () {
 });
 
 app.get('/', function(req, res) {
-  res.render('login');
+  res.render('dashboard');
 });
 
 var passport = require('passport');
-var userProfile;
+
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/dashboard', (req, res) => {
-  res.render('dashboard', {user: userProfile});
+  res.render('dashboard');
 });
 
 app.get("/search", (request, response) => {
@@ -73,7 +74,6 @@ app.get("/search", (request, response) => {
 let array = [];
 let i = 0;
 app.post("/search", async (request, response) => {
-  let result;
   let name;
   let table = "<table border = '1'>";
   table += "<thead><tr><th>No.</th><th>Hotel Name</th><th>Address</th><th>Phone Number</th><th>Rating</th></tr></thead>";
@@ -113,10 +113,10 @@ app.post("/search", async (request, response) => {
 
 app.post("/processInsert", async (request, response) => {
   let index = request.body.choose -1;
-
+  let use = request.body.name;
     let variables = {
-      user_name: userProfile.displayName,
-      user_id: userProfile.id,
+      user_name: use,
+      // user_id: userProfile.id,
       search_table: array[index]
     };
   await insert(variables);
@@ -158,31 +158,31 @@ passport.deserializeUser(function(obj, cb) {
 });
 
 
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const { traceDeprecation } = require("process");
-const GOOGLE_CLIENT_ID = process.env.CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.CLIENT_SECRET;
+// var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+// const { traceDeprecation } = require("process");
+// const GOOGLE_CLIENT_ID = process.env.CLIENT_ID;
+// const GOOGLE_CLIENT_SECRET = process.env.CLIENT_SECRET;
 
-passport.use(new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: `http://localhost:${port}/login/google/callback`
-  },
-  function(accessToken, refreshToken, profile, done) {
-      userProfile=profile;
-      return done(null, userProfile);
-  }
-));
+// passport.use(new GoogleStrategy({
+//     clientID: GOOGLE_CLIENT_ID,
+//     clientSecret: GOOGLE_CLIENT_SECRET,
+//     callbackURL: `http://localhost:${port}/login/google/callback`
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//       userProfile=profile;
+//       return done(null, userProfile);
+//   }
+// ));
 
-app.get('/login/google', 
-  passport.authenticate('google', { scope : ['profile', 'email'] }));
+// app.get('/login/google', 
+//   passport.authenticate('google', { scope : ['profile', 'email'] }));
 
-app.get('/login/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/error' }),
-  function(req, res) {
+// app.get('/login/google/callback', 
+//   passport.authenticate('google', { failureRedirect: '/error' }),
+//   function(req, res) {
 
-    res.redirect('/dashboard');
-  });
+//     res.redirect('/dashboard');
+//   });
 
 async function insert(value) {
  // const uri = `mongodb+srv://${user_name}:${password}@cluster0.bbzwrwo.mongodb.net/?retryWrites=true&w=majority`;
