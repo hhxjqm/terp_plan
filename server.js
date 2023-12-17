@@ -85,7 +85,7 @@ app.post("/search", async (request, response) => {
   const options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key':  'e369763a9bmshd622cea273ef66ap1dbbe3jsnbca70935f64d',
+      'X-RapidAPI-Key':  '254cc36cf0mshf0e5d68320bba6cp172491jsn3599f9a7951c',
       'X-RapidAPI-Host': 'local-business-data.p.rapidapi.com'
     }
   };
